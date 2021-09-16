@@ -6,10 +6,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -27,6 +29,9 @@ public class Post {
     @Temporal(TemporalType.DATE)
     @CreationTimestamp
     private Date date;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Author author;
 
     public Post() {
         super();
@@ -74,8 +79,16 @@ public class Post {
     public void setDate(Date date) {
         this.date = date;
     }
+    
+    public Author getAuthor() {
+		return author;
+	}
 
-    @Override
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Post))
             return false;

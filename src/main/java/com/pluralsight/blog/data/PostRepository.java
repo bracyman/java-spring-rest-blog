@@ -11,4 +11,6 @@ import com.pluralsight.blog.model.Post;
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
 	public List<Post> findByTitleContaining(String title);
+	
+	public List<Post> findByAuthor_Lastname(String lastname);
 }
