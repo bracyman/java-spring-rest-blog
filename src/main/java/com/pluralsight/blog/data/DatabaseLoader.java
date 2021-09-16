@@ -1,16 +1,16 @@
 package com.pluralsight.blog.data;
 
-import com.pluralsight.blog.model.Author;
-import com.pluralsight.blog.model.Post;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.IntStream;
+import com.pluralsight.blog.model.Author;
+import com.pluralsight.blog.model.Post;
 
 @Component
 public class DatabaseLoader implements ApplicationRunner {
@@ -20,8 +20,12 @@ public class DatabaseLoader implements ApplicationRunner {
             "Earbuds", "Speakers", "Tripod", "Instant Pot", "Coffee Cup", "Keyboard", "Sunglasses"};
     public List<Post> randomPosts = new ArrayList<>();
     public List<Author> authors = new ArrayList<>();
+    
+    @Autowired
+    private final PostRepository postRepository;
 
-    public DatabaseLoader() {
+    public DatabaseLoader(PostRepository postRepository) {
+    	this.postRepository = postRepository;
     }
 
     @Override
@@ -34,5 +38,7 @@ public class DatabaseLoader implements ApplicationRunner {
             Post post = new Post(title, "Lorem ipsum dolor sit amet, consectetur adipiscing elit… ");
             randomPosts.add(post);
         });
+        
+        postRepository.saveAll(randomPosts);
     }
 }
